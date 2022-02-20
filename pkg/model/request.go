@@ -1,10 +1,10 @@
 package model
 
 type StanleyRequestPayload struct {
-	Requests     []StanleyRequest
-	Skip         int `json:"skip"`
-	Take         int `json:"take"`
-	TotalRecords int `json:"totalRecords"`
+	Requests     []StanleyRequest `json:"payload"`
+	Skip         int              `json:"skip"`
+	Take         int              `json:"take"`
+	TotalRecords int              `json:"totalRecords"`
 }
 
 type StanleyRequest struct {
@@ -17,7 +17,7 @@ type StanleyRequest struct {
 	Language      string         `json:"language"`
 	NextEpisode   StanleyEpisode `json:"nextEpisode"`
 	PrimaryColour string         `json:"primaryColour"`
-	Seasons       []string       `json:"seasons"`
+	Seasons       []Season       `json:"seasons"`
 	Slug          string         `json:"slug"`
 	Title         string         `json:"title"`
 	TvChannel     string         `json:"tvChannel"`

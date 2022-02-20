@@ -1,5 +1,9 @@
 package model
 
+type StanleyResponsePayload struct {
+	Responses []StanleyResponse `json:"response"`
+}
+
 type StanleyResponse struct {
 	Image string `json:"image"`
 	Slug  string `json:"slug"`

@@ -22,7 +22,7 @@ func main() {
 	var wait time.Duration
 
 	r := mux.NewRouter()
-	r.HandleFunc("/", handlers.JSONHandler)
+	r.HandleFunc("/", handlers.JSONLinearHandler)
 	srv := &http.Server{
 		Handler:      r,
 		Addr:         "127.0.0.1:8000",
