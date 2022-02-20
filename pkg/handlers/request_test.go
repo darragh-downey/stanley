@@ -23,11 +23,24 @@ func TestSimpleRequest(t *testing.T) {
 			model.StanleyResponse{},
 		},
 		{
-			model.StanleyRequest{},
-			model.StanleyResponse{},
+			model.StanleyRequest{
+				Country: "Australia",
+				Drm:     true,
+				Image: model.StanleyImage{
+					ShowImage: "",
+				},
+				Slug: "",
+			},
+			model.StanleyResponse{
+				Image: "",
+				Slug:  "",
+				Title: "",
+			},
 		},
 		{
-			model.StanleyRequest{},
+			model.StanleyRequest{
+				Drm: false,
+			},
 			model.StanleyResponse{},
 		},
 	}

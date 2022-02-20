@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -19,14 +20,16 @@ func JSONHandler(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "{\"error\": \"Could not decode request: JSON parsing failed\"}", nil)
+		// fmt.Fprintf(w, "{\"error\": \"Could not decode request: JSON parsing failed\"}", nil)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Could not decode request: Malformed request body"})
 		return
 	}
 
 	response, err := app.Parser(done, body)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "{\"error\": \"Could not decode request: JSON parsing failed %v\"}", err)
+		// fmt.Fprintf(w, "{\"error\": \"%v\"}", err)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return
 	}
 

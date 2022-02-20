@@ -22,3 +22,8 @@ type StanleyRequest struct {
 	Title         string         `json:"title"`
 	TvChannel     string         `json:"tvChannel"`
 }
+
+func CreateRequest(s []byte) (*StanleyRequest, error) {
+
+	return &StanleyRequest{}, nil
+}
