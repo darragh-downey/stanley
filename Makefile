@@ -2,7 +2,7 @@ BINARY_NAME=stanley
 
 all: build test
 
-build-srv:
+build:
 	go build -o ${BINARY_NAME} -race ./cmd/main.go
 
 test:
