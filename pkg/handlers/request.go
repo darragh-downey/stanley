@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/darragh-downey/stanley/pkg/app"
@@ -18,6 +18,7 @@ func JSONLinearHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		// fmt.Fprintf(w, "{\"error\": \"Could not decode request: JSON parsing failed\"}", nil)
 		json.NewEncoder(w).Encode(map[string]string{"error": "Could not decode request: Malformed request body"})
+		log.Printf("Bad request: Malformed request body: %v\n", r.Body)
 		return
 	}
 
@@ -26,10 +27,13 @@ func JSONLinearHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		// fmt.Fprintf(w, "{\"error\": \"%v\"}", err)
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		log.Printf("Bad request: %v\n", err)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
+	// logging successful requests might obscure faults
+	// log.Printf("Good request: %v\n", http.StatusOK)
 	json.NewEncoder(w).Encode(response)
 	// fmt.Fprintf(w, "%v\n", response)
 }
@@ -42,6 +46,7 @@ func JSONConcHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]string{"error": "Could not decode request: Malformed request body"})
+		log.Printf("Bad request: Malformed request body: %v\n", r.Body)
 		return
 	}
 
@@ -50,9 +55,10 @@ func JSONConcHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		// fmt.Fprintf(w, "{\"error\": \"%v\"}", err)
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		log.Printf("Bad request: %v\n", err)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "payload: %v\n", response)
+	json.NewEncoder(w).Encode(response)
 }
