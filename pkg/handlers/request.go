@@ -14,6 +14,8 @@ import (
 // Then it will return an array of StanleyRes structs of titles with drm content available
 func JSONLinearHandler(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
+	w.Header().Set("Content-Type", "application/json")
+
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		// fmt.Fprintf(w, "{\"error\": \"Could not decode request: JSON parsing failed\"}", nil)
