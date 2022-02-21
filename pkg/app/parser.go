@@ -42,6 +42,7 @@ func genRequest(stream []byte) ([]model.StanleyRequest, error) {
 			return requests, fmt.Errorf("Could not decode request: Could not create payload struct due to malformed JSON: %v", err)
 		}
 		requests = payload.Requests
+		fmt.Printf("%v\n", requests)
 	}
 
 	return requests, nil
