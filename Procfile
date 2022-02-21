@@ -1,1 +1,1 @@
-web: bin/stanley
+web: bin/cmd
