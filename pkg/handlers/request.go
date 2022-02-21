@@ -52,15 +52,15 @@ func JSONConcHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response, err := app.ConcurrentParser(done, body)
-	if err != nil {
+	response := app.ConcurrentParser(done, body)
+	if response.Error != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		// fmt.Fprintf(w, "{\"error\": \"%v\"}", err)
-		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
-		log.Printf("Bad request: %v\n", err)
+		json.NewEncoder(w).Encode(map[string]string{"error": response.Error.Error()})
+		log.Printf("Bad request: %v\n", response.Error)
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
+	json.NewEncoder(w).Encode(response.Responses)
 }
