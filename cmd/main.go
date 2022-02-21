@@ -29,10 +29,9 @@ func main() {
 
 	var wait time.Duration
 
-	addr := os.Getenv("ADDR")
 	port := os.Getenv("PORT")
 
-	addr_str := fmt.Sprintf("%s:%s", addr, port)
+	addr_str := fmt.Sprintf(":%s", port)
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", handlers.JSONLinearHandler)
