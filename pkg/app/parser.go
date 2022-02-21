@@ -48,18 +48,15 @@ func genRequest(stream []byte) ([]model.StanleyRequest, error) {
 }
 
 func genResponses(requests []model.StanleyRequest) (model.StanleyResponsePayload, error) {
-	responses := make([]model.StanleyResponse, 0, 10)
+	payload := model.CreatePayload()
 	for _, request := range requests {
 		if request.Drm {
 			response, err := model.CreateResponse(request)
 			if err != nil {
 				return model.StanleyResponsePayload{}, err
 			}
-			responses = append(responses, *response)
+			payload.Add(*response)
 		}
 	}
-	payload := model.StanleyResponsePayload{
-		Responses: responses,
-	}
-	return payload, nil
+	return *payload, nil
 }
