@@ -301,11 +301,6 @@ func TestSimpleRequest(t *testing.T) {
 						Title: "World's...",
 					},
 					{
-						Image: "http://catchup.ninemsn.com.au/img/jump-in/shows/TwoandahHalfMen_V2.jpg",
-						Slug:  "show/twoandahalfmen",
-						Title: "Two and a Half Men",
-					},
-					{
 						Image: "http://catchup.ninemsn.com.au/img/jump-in/shows/TheOriginals1280.jpg",
 						Slug:  "show/theoriginals",
 						Title: "The Originals",
@@ -975,7 +970,7 @@ func TestSimpleRequest(t *testing.T) {
 		}
 
 		if !compare(res, testCase.expected) {
-			t.Errorf("%s failed parsing the request: %v %v\n", testCase.name, rr.Body.String(), testCase.expected)
+			t.Errorf("%s failed parsing the request:\n%+v\n%+v\n", testCase.name, rr.Body.String(), testCase.expected)
 		}
 	}
 }

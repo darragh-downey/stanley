@@ -98,7 +98,7 @@ func DetectDuplicateKeys(data []byte) (keys map[string]int, err error) {
 			close_delims = append(close_delims, i)
 		} else if c == ':' {
 			potential_keys = append(potential_keys, i)
-			fmt.Printf("Found potential key at position %d\n", i)
+			// fmt.Printf("Found potential key at position %d\n", i)
 		}
 	}
 
@@ -152,7 +152,7 @@ func DetectDuplicateKeys(data []byte) (keys map[string]int, err error) {
 			if err != nil {
 				return keys, err
 			}
-			fmt.Printf("%s %d\n", key, level)
+			// fmt.Printf("%s %d\n", key, level)
 			if _, ok := keys[fmt.Sprintf("%s_%d", key, level)]; ok {
 				keys[fmt.Sprintf("%s_%d", key, level)] += 1
 			} else {

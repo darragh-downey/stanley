@@ -101,7 +101,7 @@ func filterDRM(done chan interface{}, request <-chan Request) <-chan Response {
 			case <-done:
 				return
 			case req := <-request:
-				if req.Request.Drm {
+				if req.Request.Drm && req.Request.EpisodeCount > 0 {
 					resp, err := model.CreateResponse(req.Request)
 					response := Response{*resp, err}
 					res <- response
