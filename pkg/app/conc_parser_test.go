@@ -427,30 +427,44 @@ func Test_CheckDuplicate(t *testing.T) {
 				"payload": [
 					{
 						"bamba": 2,
-						"bamba": 5,
-					},
-					{
-						"bamba": 1,
-						"la": 2,
-					},
-				],
-			}`,
-			true,
-		},
-		{
-			"duplicate keys case 2",
-			`{
-				"payload": [
-					{
-						"bamba": 2,
 						"la": 5,
 					},
 					{
 						"laa": 1,
 						"laa": 2,
 					},
-				],
-			}`,
+					],
+					}`,
+			true,
+		},
+		{
+			"duplicate keys case 2",
+			`{
+						"payload": [
+							{
+								"bamba": 2,
+								"bamba": 5,
+							},
+							{
+								"bamba": 1,
+								"la": 2,
+							},
+						],
+					}`,
+			true,
+		},
+		{
+			"duplicate keys case 3",
+			`[
+				{
+					"bamba": 1,
+					"la": 2,
+				},
+				{
+					"bamba": 2,
+					"bamba": 5,
+				},
+			]`,
 			true,
 		},
 	}

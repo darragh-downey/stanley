@@ -66,11 +66,11 @@ func genConcRequest(done chan interface{}, stream []byte) <-chan Request {
 		defer close(req)
 		for decoder.More() {
 			// inside the payload array
-			check_decoder := decoder
-			if err := checkDuplicateKeys(check_decoder, nil); err != nil {
-				// skip this one
-				// continue
-			}
+			// check_decoder := decoder
+			//if err := checkDuplicateKeys(check_decoder, nil); err != nil {
+			// skip this one
+			// continue
+			//}
 
 			var payload model.StanleyRequest
 			err := decoder.Decode(&payload)
@@ -174,33 +174,47 @@ func checkDuplicateKeys(d *json.Decoder, res map[string]int) error {
 
 func testLevel(decoder *json.Decoder, keys map[string]int, level int) error {
 	// gather all keys on current level and add to map
-	if decoder.More() {
-		t, err := decoder.Token()
-		if err == io.EOF {
-			// end of input stream
-			return nil
-		} else if err != nil {
-			// Token returns nil or EOF at end of input so this is a legitimate error
-			return err
-		}
-
-		// test if we have a delimiter character
-		_, ok := t.(json.Delim)
-
-		// There's nothing to do for simple values (strings, numbers, bool, nil)
-		if !ok {
-			key := t.(string)                                // human readable key
-			m_key := fmt.Sprintf("%s_%d", t.(string), level) // unique key per level
-	
-			if keys[m_key] >= 1 {
-				return fmt.Errorf("Could not decode request: Duplicate key in JSON object: %s", key)
-			}
-			keys[m_key] += 1
-		}
-
-
-		return testLevel(decoder, keys, level+1)
+	if !decoder.More() {
+		// nothing more to take so we've reached the end of the JSON object
+		return nil
 	}
-	// nothing more to take so we've reached the end of the JSON object
-	return nil
+
+	t, err := decoder.Token()
+	if err == io.EOF {
+		// end of input stream
+		return nil
+	} else if err != nil {
+		// Token returns nil or EOF at end of input so this is a legitimate error
+		// return err
+	}
+
+	// test if we have a delimiter character []{}
+	delim, ok := t.(json.Delim)
+
+	if delim == '[' || delim == '{' {
+		// delim is the opening of a new object
+		return testLevel(decoder, keys, level+1)
+	} else if delim == ']' || delim == '}' {
+		keys = make(map[string]int)
+	}
+
+	// have a key or value (strings, numbers, bool, nil)
+	if !ok {
+		key, ok := t.(string) // human readable keys
+		if !ok {
+			// likely reached a value as all keys are strings
+			// check same level
+			return testLevel(decoder, keys, level)
+		}
+		m_key := fmt.Sprintf("%s_%d", t.(string), level) // unique key per level
+
+		if keys[m_key] >= 1 {
+			return fmt.Errorf("Could not decode request: Duplicate key in JSON object: %s", key)
+		}
+		keys[m_key] += 1
+	}
+
+	// delim must be one of } or ] meaning we're entring a new object in a given object/array
+	// clear key scores as they shouldn't carry over between objects
+	return testLevel(decoder, keys, level)
 }

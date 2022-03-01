@@ -203,13 +203,13 @@
         "ChannelLogo": "http://catchup.ninemsn.com.au/img/player/Ch9_new_logo.gif",
         "Date": "",
         "Html": "Next episode airs: <span> 10:00pm Monday on<br><span class=\"visit\">Visit the Official Website</span></span>",
-        "Url": "http://channelnine.ninemsn.com.au/twoandahalfmen/}",
-        "PrimaryColour": "#ff7800",
-        "Seasons": [],
-        "Slug": "show/twoandahalfmen",
-        "Title": "Two and a Half Men Tv",
-        "Channel": "Channel 9"
-      }
+        "Url": "http://channelnine.ninemsn.com.au/twoandahalfmen/"
+      },
+      "PrimaryColour": "#ff7800",
+      "Seasons": [],
+      "Slug": "show/twoandahalfmen",
+      "Title": "Two and a Half Men Tv",
+      "Channel": "Channel 9"
     },
     {
       "Country": "USA",
